@@ -18,7 +18,13 @@ export default class InstructorRepository {
 
     async findAll() {
         const instructors: IInstructor[] =
-            await this.databaseService.instructor.findMany();
+            await this.databaseService.instructor.findMany({
+                select: {
+                    id: true,
+                    name: true,
+                    courses: true,
+                },
+            });
 
         return instructors;
     }
@@ -27,6 +33,11 @@ export default class InstructorRepository {
         const instructor: IInstructor =
             await this.databaseService.instructor.findUnique({
                 where: { id },
+                select: {
+                    id: true,
+                    name: true,
+                    courses: true,
+                },
             });
 
         return instructor;
@@ -38,6 +49,7 @@ export default class InstructorRepository {
                 where: { id },
                 data: {
                     name: instructor.name,
+                    updatedAt: new Date(),
                 },
             });
 

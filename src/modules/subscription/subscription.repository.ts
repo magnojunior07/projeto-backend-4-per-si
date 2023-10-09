@@ -20,7 +20,15 @@ export default class SubscriptionRepository {
 
     async findAll() {
         const subscriptions: ISubscription[] =
-            await this.databaseService.subscription.findMany();
+            await this.databaseService.subscription.findMany({
+                select: {
+                    id: true,
+                    userId: true,
+                    courseId: true,
+                    user: true,
+                    course: true,
+                },
+            });
 
         return subscriptions;
     }
@@ -29,6 +37,13 @@ export default class SubscriptionRepository {
         const subscription: ISubscription =
             await this.databaseService.subscription.findUnique({
                 where: { id },
+                select: {
+                    id: true,
+                    userId: true,
+                    courseId: true,
+                    user: true,
+                    course: true,
+                },
             });
 
         return subscription;
@@ -41,6 +56,7 @@ export default class SubscriptionRepository {
                 data: {
                     userId: subscription.userId,
                     courseId: subscription.courseId,
+                    updatedAt: new Date(),
                 },
             });
 

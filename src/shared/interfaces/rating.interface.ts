@@ -1,12 +1,14 @@
 import { ICourse } from "./course.interface";
 import { IUser } from "./user.interface";
 
-export interface ISubscription {
+export interface IRating {
     id?: number;
-    courseId: number;
-    userId: number;
+    rating: number;
+    feedback: string;
     user?: IUser;
     course?: ICourse;
+    userId: number;
+    courseId: number;
     createdAt?: Date;
     updatedAt?: Date;
 }

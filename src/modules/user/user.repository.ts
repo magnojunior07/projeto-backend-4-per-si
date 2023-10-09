@@ -19,7 +19,14 @@ export default class UserRepository {
     }
 
     async findAll() {
-        const users: IUser[] = await this.databaseService.user.findMany();
+        const users: IUser[] = await this.databaseService.user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                subscriptions: true,
+            },
+        });
 
         return users;
     }
@@ -27,6 +34,12 @@ export default class UserRepository {
     async findOneById(id: number) {
         const user: IUser = await this.databaseService.user.findUnique({
             where: { id },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                subscriptions: true,
+            },
         });
 
         return user;
@@ -35,6 +48,12 @@ export default class UserRepository {
     async findOneByEmail(email: string) {
         const user: IUser = await this.databaseService.user.findUnique({
             where: { email },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                password: true,
+            },
         });
 
         return user;
@@ -47,6 +66,7 @@ export default class UserRepository {
                 name: user.name,
                 email: user.email,
                 password: user.password,
+                updatedAt: new Date(),
             },
         });
 

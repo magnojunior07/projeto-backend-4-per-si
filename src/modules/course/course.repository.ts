@@ -19,7 +19,17 @@ export default class CourseRepository {
     }
 
     async findAll() {
-        const courses: ICourse[] = await this.databaseService.course.findMany();
+        const courses: ICourse[] = await this.databaseService.course.findMany({
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                instructor: true,
+                instructorId: true,
+                subscriptions: true,
+                ratings: true,
+            },
+        });
 
         return courses;
     }
@@ -27,6 +37,15 @@ export default class CourseRepository {
     async findOneById(id: number) {
         const course: ICourse = await this.databaseService.course.findUnique({
             where: { id },
+            select: {
+                id: true,
+                name: true,
+                description: true,
+                instructor: true,
+                instructorId: true,
+                subscriptions: true,
+                ratings: true,
+            },
         });
 
         return course;
@@ -40,6 +59,7 @@ export default class CourseRepository {
                     name: course.name,
                     description: course.description,
                     instructorId: course.instructorId,
+                    updatedAt: new Date(),
                 },
             },
         );

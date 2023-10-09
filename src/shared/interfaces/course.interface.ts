@@ -1,3 +1,5 @@
+import { IInstructor } from "./instructor.interface";
+import { IRating } from "./rating.interface";
 import { ISubscription } from "./subscription.interface";
 
 export interface ICourse {
@@ -5,7 +7,9 @@ export interface ICourse {
     name: string;
     description: string;
     instructorId: number;
-    subscriptions: ISubscription[];
+    instructor?: IInstructor;
+    subscriptions?: ISubscription[];
+    ratings?: IRating[];
     createdAt?: Date;
     updatedAt?: Date;
 }
