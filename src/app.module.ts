@@ -10,7 +10,6 @@ import { RatingModule } from "./modules/ratings/rating.module";
 
 @Module({
     imports: [
-        DatabaseService,
         UserModule,
         InstructorModule,
         CourseModule,
