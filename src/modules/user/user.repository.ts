@@ -41,7 +41,44 @@ export default class UserRepository {
                 id: true,
                 name: true,
                 email: true,
-                subscriptions: true,
+                subscriptions: {
+                    select: {
+                        id: true,
+                        userId: true,
+                        courseId: true,
+                        course: {
+                            select: {
+                                id: true,
+                                name: true,
+                                description: true,
+                                instructor: true,
+                                instructorId: true,
+                                subscriptions: true,
+                                ratings: true,
+                            },
+                        },
+                    },
+                },
+                ratings: {
+                    select: {
+                        id: true,
+                        userId: true,
+                        courseId: true,
+                        rating: true,
+                        feedback: true,
+                        course: {
+                            select: {
+                                id: true,
+                                name: true,
+                                description: true,
+                                instructor: true,
+                                instructorId: true,
+                                subscriptions: true,
+                                ratings: true,
+                            },
+                        },
+                    },
+                },
             },
         });
 
