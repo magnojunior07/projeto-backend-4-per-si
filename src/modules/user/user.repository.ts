@@ -2,12 +2,12 @@ import DatabaseService from "src/database/database.service";
 import { IUser } from "src/shared/interfaces/user.interface";
 import { UpdateUserDto } from "./dto/update-user.dto";
 import { CreateUserDto } from "./dto/create-user.dto";
+import { PrismaClient } from "@prisma/client";
 
 export default class UserRepository {
-    constructor(private readonly databaseService: DatabaseService) {}
-
     async create(user: CreateUserDto) {
-        const createdUser = await this.databaseService.user.create({
+        const prisma: PrismaClient = DatabaseService.getInstance();
+        const createdUser = await prisma.user.create({
             data: {
                 name: user.name,
                 email: user.email,
@@ -19,12 +19,14 @@ export default class UserRepository {
     }
 
     async findAll() {
-        const users: IUser[] = await this.databaseService.user.findMany({
+        const prisma: PrismaClient = DatabaseService.getInstance();
+        const users: IUser[] = await prisma.user.findMany({
             select: {
                 id: true,
                 name: true,
                 email: true,
                 subscriptions: true,
+                ratings: true,
             },
         });
 
@@ -32,7 +34,8 @@ export default class UserRepository {
     }
 
     async findOneById(id: number) {
-        const user: IUser = await this.databaseService.user.findUnique({
+        const prisma: PrismaClient = DatabaseService.getInstance();
+        const user: IUser = await prisma.user.findUnique({
             where: { id },
             select: {
                 id: true,
@@ -46,7 +49,8 @@ export default class UserRepository {
     }
 
     async findOneByEmail(email: string) {
-        const user: IUser = await this.databaseService.user.findUnique({
+        const prisma: PrismaClient = DatabaseService.getInstance();
+        const user: IUser = await prisma.user.findUnique({
             where: { email },
             select: {
                 id: true,
@@ -60,7 +64,8 @@ export default class UserRepository {
     }
 
     async update(id: number, user: UpdateUserDto) {
-        const updatedUser: IUser = await this.databaseService.user.update({
+        const prisma: PrismaClient = DatabaseService.getInstance();
+        const updatedUser: IUser = await prisma.user.update({
             where: { id },
             data: {
                 name: user.name,
@@ -74,7 +79,8 @@ export default class UserRepository {
     }
 
     async remove(id: number) {
-        const deletedUser: IUser = await this.databaseService.user.delete({
+        const prisma: PrismaClient = DatabaseService.getInstance();
+        const deletedUser: IUser = await prisma.user.delete({
             where: { id },
         });
 
